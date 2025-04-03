@@ -12,7 +12,10 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         InvokeRepeating("CreateEnemyOne", 1, 2);
-        InvokeRepeating("CreateEnemyTwo", 5, 4);
+        if (enemyTwoPrefab != null)
+        {
+            InvokeRepeating("CreateEnemyTwo", 5, 6);
+        }
     }
 
     // Update is called once per frame
