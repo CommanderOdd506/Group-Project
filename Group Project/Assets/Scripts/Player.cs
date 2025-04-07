@@ -10,9 +10,13 @@ public class Player : MonoBehaviour
     //3. variable name: camelCase
     //4. value: optional
 
+    private int lives = 3;
+
     private float playerSpeed;
     private float horizontalInput;
     private float verticalInput;
+
+    public GameManager gm;
 
     private float horizontalScreenLimit = 9.5f;
     private float verticalScreenLimit = 3.5f; // Added a variable for vertical bounds
@@ -60,6 +64,26 @@ public class Player : MonoBehaviour
         if (transform.position.x > horizontalScreenLimit || transform.position.x <= -horizontalScreenLimit)
         {
             transform.position = new Vector3(transform.position.x * -1, transform.position.y, 0);
+        }
+    }
+
+    void OnTriggerEnter(Collider collider)
+    {
+        if (collider.CompareTag("Enemy"))
+        {
+            lives--;
+            gm.ChangeLivesText(lives);
+            Destroy(collider.gameObject);
+            if (lives <= 0)
+            {
+                Destroy(gameObject);
+            }
+
+        }
+        else if (collider.CompareTag("Coin"))
+        {
+            gm.AddScore(5);
+            Destroy(collider.gameObject);
         }
     }
 }
